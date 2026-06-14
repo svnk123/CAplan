@@ -90,6 +90,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--light);color:var(--text);
 .route-lbl{font-size:13px;color:#555;flex:1}
 .route-t{font-size:13px;font-weight:700;color:var(--red);white-space:nowrap}
 
+/* ADDRESS */
+.addr{display:flex;align-items:center;gap:7px;background:var(--light);border-radius:7px;padding:6px 10px;margin-bottom:9px;flex-wrap:wrap}
+.addr-lbl{font-size:13px;color:#555;flex:1}
+.addr-link{font-size:13px;font-weight:700;color:#1565c0;white-space:nowrap;text-decoration:underline}
+
 /* PARKING */
 .pk{display:flex;gap:8px;align-items:flex-start;border-radius:8px;padding:8px 11px;margin-bottom:9px}
 .pk.free{background:#e8f5e9;border:1px solid #a5d6a7}
@@ -757,11 +762,12 @@ function render(i){
     const bkB=s.bookingLink?`<span class="badge b-book">🔗 Advance booking</span>`:'';
     const durB=s.duration?`<span class="badge b-dur">⏱ ${s.duration}</span>`:'';
     const photo=s.photo?`<img src="${s.photo}" class="stop-photo" onerror="this.style.display='none'" alt="${s.title}">`:'';
+    const addr=s.address?`<div class="addr"><span>📍</span><span class="addr-lbl">${s.address}</span><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.address)}" target="_blank" class="addr-link">Map →</a></div>`:'';
     const route=s.route?`<div class="route"><span>🚗</span><span class="route-lbl">${s.route.split(':')[0]}</span>${s.route.includes(':')?`<span class="route-t">⏱ ${s.route.split(':').slice(1).join(':').trim()}</span>`:''}</div>`:'';
     const pk=s.parking?`<div class="pk ${pkClass(s.pktype)}"><div style="font-size:15px;flex-shrink:0">🅿️</div><div><div class="pk-lbl">${pkLabel(s.pktype)}</div><div class="pk-txt">${s.parking}</div></div></div>`:'';
     const res=s.reservation?`<div class="res ${s.resReq?'warn':s.bookingLink?'book':'ok'}"><div class="res-txt">${s.resReq?'⚠️':s.bookingLink?'📅':'✅'} ${s.reservation}</div>${s.bookingLink?`<a href="${s.bookingLink}" target="_blank" class="res-link">${s.bookingText} →</a>`:''}</div>`:'';
     const tip=s.tip?`<div class="tip"><div class="tip-ey">Tip</div><div class="tip-txt">${s.tip}</div></div>`:'';
-    html+=`<div class="stop" id="s${i}${j}" onclick="tog(${i},${j})"><div class="stop-hd"><div class="stop-ico">${s.icon}</div><div class="stop-meta"><div class="stop-badges"><span class="stop-time" style="color:${d.accent}">${s.time}</span>${durB}${resB}${bkB}${pkB}</div><div class="stop-ttl">${s.title}</div></div><div class="chevron">▾</div></div><div class="stop-body">${photo}${route}<div class="desc">${s.desc}</div>${pk}${res}${tip}</div></div>`;
+    html+=`<div class="stop" id="s${i}${j}" onclick="tog(${i},${j})"><div class="stop-hd"><div class="stop-ico">${s.icon}</div><div class="stop-meta"><div class="stop-badges"><span class="stop-time" style="color:${d.accent}">${s.time}</span>${durB}${resB}${bkB}${pkB}</div><div class="stop-ttl">${s.title}</div></div><div class="chevron">▾</div></div><div class="stop-body">${photo}${addr}${route}<div class="desc">${s.desc}</div>${pk}${res}${tip}</div></div>`;
   });
 
   // Reservation summary
